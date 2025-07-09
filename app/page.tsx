@@ -1,13 +1,14 @@
 "use client"
 
 import type React from "react"
+import Link from "next/link"
 
 import { useChat } from "@ai-sdk/react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Send, Bot, User, Wrench } from "lucide-react"
+import { Send, Bot, User, Wrench, Brain, ArrowRight } from "lucide-react"
 
 export default function ChatbotPage() {
   const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
@@ -16,7 +17,7 @@ export default function ChatbotPage() {
       {
         id: "1",
         role: "assistant",
-        content: "Hello! I'm your AI assistant. How can I help you today? I can check the weather for any location and even convert temperatures!",
+        content: "Hello! I'm your AI assistant. How can I help you today? I can check the weather and convert temperatures!\n\n💡 **Tip:** For complex math problems and step-by-step analysis, try the **Problem Solver** (click the button above)!",
       },
     ],
   })
@@ -25,10 +26,19 @@ export default function ChatbotPage() {
     <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
       <Card className="w-full max-w-4xl h-[80vh] bg-gray-900 border-gray-800">
         <CardHeader className="border-b border-gray-800">
-          <CardTitle className="flex items-center gap-2 text-white">
-            <Bot className="w-6 h-6 text-blue-400" />
-            AI Chatbot
-          </CardTitle>
+          <div className="flex items-center justify-between">
+            <CardTitle className="flex items-center gap-2 text-white">
+              <Bot className="w-6 h-6 text-blue-400" />
+              AI Chatbot
+            </CardTitle>
+            <Link href="/solver">
+              <Button variant="outline" size="sm" className="bg-purple-600/20 border-purple-500 text-purple-300 hover:bg-purple-600/30">
+                <Brain className="w-4 h-4 mr-2" />
+                Problem Solver
+                <ArrowRight className="w-3 h-3 ml-1" />
+              </Button>
+            </Link>
+          </div>
         </CardHeader>
 
         <CardContent className="p-0 flex-1">
