@@ -7,15 +7,16 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Send, Bot, User } from "lucide-react"
+import { Send, Bot, User, Wrench } from "lucide-react"
 
 export default function ChatbotPage() {
   const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
+    maxSteps: 5,
     initialMessages: [
       {
         id: "1",
         role: "assistant",
-        content: "Hello! I'm your AI assistant. How can I help you today?",
+        content: "Hello! I'm your AI assistant. How can I help you today? I can check the weather for any location and even convert temperatures!",
       },
     ],
   })
@@ -56,8 +57,26 @@ export default function ChatbotPage() {
                         message.role === "user" ? "bg-blue-600 text-white" : "bg-gray-800 text-gray-100"
                       }`}
                     >
-                      <div className="text-sm leading-relaxed whitespace-pre-wrap">
-                        {message.content}
+                      <div className="text-sm leading-relaxed whitespace-pre-wrap space-y-2">
+                        {message.content && <div>{message.content}</div>}
+                        {message.toolInvocations && message.toolInvocations.map((toolInvocation, index) => (
+                          <div key={index} className="border-l-2 border-blue-400 pl-3 mt-2">
+                            <div className="text-xs text-blue-300 font-medium mb-1 flex items-center gap-1">
+                              <Wrench className="w-3 h-3" />
+                              {toolInvocation.toolName}
+                            </div>
+                            {toolInvocation.state === 'call' && (
+                              <div className="text-xs text-gray-400">
+                                Calling with: {JSON.stringify(toolInvocation.args)}
+                              </div>
+                            )}
+                            {toolInvocation.state === 'result' && (
+                              <div className="text-xs text-green-300">
+                                Result: {JSON.stringify(toolInvocation.result)}
+                              </div>
+                            )}
+                          </div>
+                        ))}
                       </div>
                     </div>
                     <p className="text-xs text-gray-500 mt-1">{new Date().toLocaleTimeString()}</p>
