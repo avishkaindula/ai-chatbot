@@ -42,7 +42,7 @@ export default function ChatbotPage() {
         </CardHeader>
 
         <CardContent className="p-0 flex-1">
-          <ScrollArea className="h-[calc(80vh-140px)] p-4">
+          <ScrollArea className="h-[calc(80vh-160px)] p-4">
             <div className="space-y-4">
               {messages.map((message) => (
                 <div
@@ -120,19 +120,19 @@ export default function ChatbotPage() {
           </ScrollArea>
         </CardContent>
 
-        <CardFooter className="border-t border-gray-800 p-4">
-          <form onSubmit={handleSubmit} className="flex w-full gap-2">
+        <CardFooter className="border-t border-gray-800 p-4 min-h-[72px] flex items-center">
+          <form onSubmit={handleSubmit} className="flex w-full gap-2 items-center">
             <Input
               value={input}
               onChange={handleInputChange}
               placeholder="Type your message here..."
-              className="flex-1 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-blue-500"
+              className="flex-1 bg-gray-800 border-gray-700 text-white placeholder-gray-400 focus:border-blue-500 h-10"
               disabled={isLoading}
             />
             <Button
               type="submit"
               disabled={isLoading || !input.trim()}
-              className="bg-blue-600 hover:bg-blue-700 text-white"
+              className="bg-blue-600 hover:bg-blue-700 text-white flex-shrink-0 h-10 w-10"
             >
               <Send className="w-4 h-4" />
             </Button>

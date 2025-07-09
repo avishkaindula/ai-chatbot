@@ -189,7 +189,7 @@ export default function ProblemSolverPage() {
         </CardHeader>
 
         <CardContent className="p-0 flex-1">
-          <ScrollArea className="h-[calc(85vh-140px)] p-4">
+          <ScrollArea className="h-[calc(85vh-160px)] p-4">
             <div className="space-y-4">
               {messages.map((message) => (
                 <div
@@ -251,19 +251,19 @@ export default function ProblemSolverPage() {
           </ScrollArea>
         </CardContent>
 
-        <CardFooter className="border-t border-purple-800/50 p-4">
-          <form onSubmit={handleSubmit} className="flex w-full gap-2">
+        <CardFooter className="border-t border-purple-800/50 p-4 min-h-[72px] flex items-center">
+          <form onSubmit={handleSubmit} className="flex w-full gap-2 items-center">
             <Input
               value={input}
               onChange={handleInputChange}
               placeholder="Describe your complex problem here... (e.g., 'Calculate the ROI of a $50k investment over 5 years at 7% interest')"
-              className="flex-1 bg-gray-800/50 border-purple-700/50 text-white placeholder-gray-400 focus:border-purple-500"
+              className="flex-1 bg-gray-800/50 border-purple-700/50 text-white placeholder-gray-400 focus:border-purple-500 h-10"
               disabled={isLoading}
             />
             <Button
               type="submit"
               disabled={isLoading || !input.trim()}
-              className="bg-purple-600 hover:bg-purple-700 text-white"
+              className="bg-purple-600 hover:bg-purple-700 text-white flex-shrink-0 h-10 w-10"
             >
               <Send className="w-4 h-4" />
             </Button>
