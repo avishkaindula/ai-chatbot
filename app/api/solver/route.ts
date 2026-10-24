@@ -1,6 +1,7 @@
 import { openai } from "@ai-sdk/openai";
 import { streamText, tool } from "ai";
 import { z } from "zod";
+import { evaluateExpression } from "@/lib/safe-math";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -34,19 +35,18 @@ export async function POST(req: Request) {
         }),
         execute: async ({ expression }) => {
           try {
-            // Enhanced math evaluation with Math functions
-            const safeExpression = expression.replace(/[^0-9+\-*/().,\sMath\w]/g, '');
-            const result = Function(`"use strict"; return (${safeExpression})`)();
+            // Parsed by a whitelist-only evaluator — model output is never executed as code.
+            const result = evaluateExpression(expression);
             return {
               expression: expression,
               result: result,
-              formatted: typeof result === 'number' ? result.toLocaleString() : result
+              formatted: result.toLocaleString()
             };
           } catch (error) {
             return {
               expression: expression,
-              error: "Invalid mathematical expression",
-              suggestion: "Try using standard mathematical operators (+, -, *, /) and Math functions like Math.pow(), Math.sqrt(), etc."
+              error: error instanceof Error ? error.message : "Invalid mathematical expression",
+              suggestion: "Use numbers, + - * / % ^, parentheses, pi, e, and functions like sqrt(), pow(), log(), round(), min(), max()."
             };
           }
         },
